@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import LogOut from "@/components/LogOut";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,8 +19,11 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<LogOut />
-				{children}
+				<div className="flex flex-col h-screen justify-between">
+					<Navbar />
+					<main className="mb-auto">{children}</main>
+					<Footer />
+				</div>
 			</body>
 		</html>
 	);

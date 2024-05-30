@@ -6,29 +6,7 @@ import { generateIdFromEntropySize } from "lucia";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function Page() {
-	return (
-		<>
-			<h1>Create an account</h1>
-			<form action={signup} className="">
-				<label htmlFor="username">Username</label>
-				<input className="text-black" name="username" id="username" />
-				<br />
-				<label htmlFor="password">Password</label>
-				<input
-					className="text-black"
-					name="password"
-					id="password"
-					type="password"
-				/>
-				<br />
-				<button type="submit">Continue</button>
-			</form>
-		</>
-	);
-}
-
-async function signup(formData: FormData): Promise<ActionResult> {
+export async function signup(formData: FormData): Promise<ActionResult> {
 	"use server";
 
 	const username = formData.get("username");

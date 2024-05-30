@@ -3,10 +3,16 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export default async function LogOut() {
+	const { session } = await validateRequest();
+
 	return (
-		<form action={logout}>
-			<button>Sign Out</button>
-		</form>
+		<>
+			{session && (
+				<form action={logout}>
+					<button>Sign Out</button>
+				</form>
+			)}
+		</>
 	);
 }
 
