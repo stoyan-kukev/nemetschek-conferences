@@ -12,7 +12,7 @@ export const eventTable = sqliteTable("event", {
 	name: text("name").notNull(),
 	city: text("city").notNull(),
 	startDate: integer("start_date").notNull(),
-	type: text("type"),
+	type: text("type").default("conference"),
 });
 
 export const userEventTable = sqliteTable("user_event", {

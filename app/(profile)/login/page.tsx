@@ -1,10 +1,9 @@
-"use client";
-import { signin } from "./action";
+import { login } from "@/actions/login";
 
-export default function Example() {
+export default async function Page() {
 	return (
 		<>
-			<div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+			<div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
 				<div className="sm:mx-auto sm:w-full sm:max-w-sm">
 					<h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
 						Sign in to your account
@@ -12,7 +11,7 @@ export default function Example() {
 				</div>
 
 				<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-					<form className="space-y-6" action={signin}>
+					<form className="space-y-6" action={login}>
 						<div>
 							<label
 								htmlFor="username"
@@ -40,14 +39,6 @@ export default function Example() {
 								>
 									Password
 								</label>
-								<div className="text-sm">
-									<a
-										href="#"
-										className="font-semibold text-indigo-600 hover:text-indigo-500"
-									>
-										Forgot password?
-									</a>
-								</div>
 							</div>
 							<div className="mt-2">
 								<input
@@ -72,12 +63,12 @@ export default function Example() {
 					</form>
 
 					<p className="mt-10 text-center text-sm text-gray-500">
-						Not a member?{" "}
+						Don't have an account?{" "}
 						<a
-							href="#"
+							href="/signup"
 							className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
 						>
-							Start a 14 day free trial
+							Create one
 						</a>
 					</p>
 				</div>
