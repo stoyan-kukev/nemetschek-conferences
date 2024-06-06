@@ -102,7 +102,7 @@ export default function LoggedInNav() {
 											<MenuItem>
 												{({ focus }) => (
 													<a
-														href="#"
+														href="/profile"
 														className={classNames(
 															focus
 																? "bg-gray-100"

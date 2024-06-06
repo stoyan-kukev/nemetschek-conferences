@@ -1,12 +1,12 @@
 import { validateRequest } from "@/lib/db";
-import LoggedInNav from "./LoggedInNav";
 import LoggedOutNav from "./LoggedOutNav";
+import SideNav from "../SideNav";
 
 export default async function Navbar() {
 	const { session } = await validateRequest();
 
 	if (session) {
-		return <LoggedInNav />;
+		return <SideNav />;
 	} else {
 		return <LoggedOutNav />;
 	}
