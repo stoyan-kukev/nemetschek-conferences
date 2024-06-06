@@ -1,6 +1,14 @@
 import { login } from "@/actions/login";
+import { validateRequest } from "@/lib/db";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
+	const { session } = await validateRequest();
+
+	if (session) {
+		return redirect("/dashboard");
+	}
+
 	return (
 		<>
 			<div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">

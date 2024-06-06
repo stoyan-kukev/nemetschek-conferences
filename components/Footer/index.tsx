@@ -1,12 +1,4 @@
-import { validateRequest } from "@/lib/db";
-
-export default async function Footer() {
-	const { session } = await validateRequest();
-
-	if (session) {
-		return <></>;
-	}
-
+export default function Footer() {
 	return (
 		<>
 			<footer className="bg-white dark:bg-slate-900 text-center ">

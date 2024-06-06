@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import LoggedOutNav from "@/components/Navbar/LoggedOutNav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,13 +18,9 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
-			<body className={inter.className}>
-				<div className="flex flex-col h-screen justify-between">
-					<Navbar />
-					<main className="mb-auto">{children}</main>
-					<Footer />
-				</div>
+		<html lang="en" className="h-screen">
+			<body className={"h-full " + inter.className}>
+				<main className="h-full">{children}</main>
 			</body>
 		</html>
 	);

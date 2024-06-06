@@ -1,14 +1,14 @@
 export default function DesktopNav({
 	items,
 }: {
-	items: { text: string; icon: JSX.Element }[];
+	items: { text: string; href: string; icon: JSX.Element }[];
 }) {
 	return (
 		<>
-			<div className="hidden xl:fixed xl:top-0 xl:bottom-0 xl:z-50 xl:flex xl:flex-col xl:w-[18rem] bg-slate-800 text-white">
+			<div className="hidden sm:fixed sm:top-0 sm:bottom-0 sm:z-50 sm:flex sm:flex-col sm:w-[18rem] bg-slate-800 text-white">
 				<div className="overflow-hidden flex flex-col gap-y-5 flex-grow">
 					<div className="flex flex-shrink-0 h-16 justify-center items-center ">
-						<h2 className="font-bold border-white border-2 rounded-xl p-3">
+						<h2 className="font-bold bg-indigo-600/50 text-white  rounded-xl p-3">
 							Nemetschek Conferences
 						</h2>
 					</div>
@@ -21,7 +21,7 @@ export default function DesktopNav({
 											<li>
 												<a
 													className="leading-6 p-2 ml-4 gap-x-3 flex"
-													href="#"
+													href={item.href}
 												>
 													{item.icon}
 													{item.text}

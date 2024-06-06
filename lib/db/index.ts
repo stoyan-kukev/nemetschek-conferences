@@ -17,9 +17,12 @@ export const lucia = new Lucia(adapter, {
 			secure: process.env.NODE_ENV === "production",
 		},
 	},
-	getUserAttributes: ({ username }) => {
+	getUserAttributes: ({ username, firstName, lastName, email }) => {
 		return {
 			username,
+			firstName,
+			lastName,
+			email,
 		};
 	},
 });
@@ -67,4 +70,7 @@ declare module "lucia" {
 
 interface DatabaseUserAttributes {
 	username: string;
+	firstName: string | null;
+	lastName: string | null;
+	email: string | null;
 }

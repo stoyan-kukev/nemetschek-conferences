@@ -1,19 +1,13 @@
 "use client";
 
-import {
-	Dialog,
-	DialogPanel,
-	DialogTitle,
-	Disclosure,
-	DisclosureButton,
-} from "@headlessui/react";
+import { Dialog, DialogPanel } from "@headlessui/react";
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
 export default function MobileNav({
 	items,
 }: {
-	items: { text: string; icon: JSX.Element }[];
+	items: { text: string; href: string; icon: JSX.Element }[];
 }) {
 	const [open, setOpen] = useState(false);
 
@@ -21,7 +15,7 @@ export default function MobileNav({
 		<>
 			<button
 				onClick={() => setOpen(true)}
-				className="sm:hidden relative inline-flex justify-between items-center p-2 text-white bg-slate-900"
+				className="sm:hidden fixed inline-flex w-full justify-between items-center p-2 text-white bg-slate-900"
 			>
 				<span className="absolute -inset-0.5" />
 				<span className="sr-only">Open main menu</span>
@@ -73,7 +67,11 @@ export default function MobileNav({
 	);
 }
 
-function Nav({ items }: { items: { text: string; icon: JSX.Element }[] }) {
+function Nav({
+	items,
+}: {
+	items: { text: string; href: string; icon: JSX.Element }[];
+}) {
 	return (
 		<>
 			<nav className="absolute inset-0 bg-slate-900 flex flex-col flex-1 overflow-hidden text-white pt-10">
@@ -85,7 +83,7 @@ function Nav({ items }: { items: { text: string; icon: JSX.Element }[] }) {
 									<li>
 										<a
 											className="leading-6 p-2 ml-4 gap-x-3 flex"
-											href="#"
+											href={item.href}
 										>
 											{item.icon}
 											{item.text}
