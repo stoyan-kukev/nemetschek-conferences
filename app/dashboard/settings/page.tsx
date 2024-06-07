@@ -1,3 +1,4 @@
+import { changePassword } from "@/actions/changePassword";
 import { editUserProfile } from "@/actions/editUserProfile";
 import { validateRequest } from "@/lib/db";
 
@@ -61,7 +62,10 @@ export default async function Page() {
 						Update your password associated with your account
 					</p>
 				</div>
-				<form className="col-span-2 mb-10 md:max-w-[36rem]">
+				<form
+					className="col-span-2 mb-10 md:max-w-[36rem]"
+					action={changePassword}
+				>
 					<div className="md:grid-cols-6 gap-y-8 gap-x-6 grid">
 						<InputFields items={passwordItems} />
 					</div>
@@ -133,7 +137,11 @@ function InputFields({
 					</label>
 					<div className="mt-2">
 						<input
-							type="text"
+							type={
+								htmlName.includes("password")
+									? "password"
+									: "text"
+							}
 							id={htmlName}
 							name={htmlName}
 							className="ring-gray-800/10 ring-inset ring-2 
