@@ -1,5 +1,6 @@
 import { changePassword } from "@/actions/changePassword";
 import { editUserProfile } from "@/actions/editUserProfile";
+import { logOutOtherSessions } from "@/actions/logOutOtherSessions";
 import { validateRequest } from "@/lib/db";
 
 const profileItems = [
@@ -85,7 +86,10 @@ export default async function Page() {
 						devices.
 					</p>
 				</div>
-				<form className="col-span-2 mb-10 md:max-w-[36rem]">
+				<form
+					className="col-span-2 mb-10 md:max-w-[36rem]"
+					action={logOutOtherSessions}
+				>
 					<div className="md:grid-cols-6 gap-y-8 gap-x-6 grid">
 						<InputFields items={logOutSessionsItems} />
 					</div>
