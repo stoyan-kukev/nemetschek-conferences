@@ -15,9 +15,8 @@ export default function MobileNav({
 		<>
 			<button
 				onClick={() => setOpen(true)}
-				className="sm:hidden fixed inline-flex w-full justify-between items-center p-2 text-white bg-slate-900"
+				className="sm:hidden inline-flex w-full justify-between items-center p-2 text-white bg-slate-900"
 			>
-				<span className="absolute -inset-0.5" />
 				<span className="sr-only">Open main menu</span>
 				<h2 className="font-bold border-white border-2 rounded-xl p-2">
 					Nemetschek Conferences

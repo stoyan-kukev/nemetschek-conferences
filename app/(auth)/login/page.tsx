@@ -6,7 +6,7 @@ export default async function Page() {
 	const { session } = await validateRequest();
 
 	if (session) {
-		return redirect("/dashboard");
+		redirect("/dashboard");
 	}
 
 	return (

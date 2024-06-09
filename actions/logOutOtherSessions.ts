@@ -12,7 +12,7 @@ type ActionResult = {
 };
 
 export async function logOutOtherSessions(
-	formData: FormData
+	formData: FormData,
 ): Promise<ActionResult> {
 	const { user } = await validateRequest();
 	if (!user) {

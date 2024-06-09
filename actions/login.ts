@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export async function login(formData: FormData): Promise<ActionResult> {
+export async function login(formData: FormData) {
 	const username = formData.get("username");
 	if (
 		typeof username !== "string" ||
@@ -61,5 +61,5 @@ export async function login(formData: FormData): Promise<ActionResult> {
 	const { name, value, attributes } = sessionCookie;
 	cookies().set(name, value, attributes);
 
-	return redirect("/");
+	return redirect("/dashboard");
 }
