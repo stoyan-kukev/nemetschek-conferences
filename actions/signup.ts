@@ -64,5 +64,5 @@ export async function signup(formData: FormData): Promise<ActionResult> {
 	const { name, value, attributes } = sessionCookie;
 	cookies().set(name, value, attributes);
 
-	return redirect("/");
+	redirect("/dashboard");
 }

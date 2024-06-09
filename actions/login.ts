@@ -61,5 +61,5 @@ export async function login(formData: FormData) {
 	const { name, value, attributes } = sessionCookie;
 	cookies().set(name, value, attributes);
 
-	return redirect("/dashboard");
+	redirect("/dashboard");
 }

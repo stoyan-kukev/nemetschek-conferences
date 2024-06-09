@@ -6,7 +6,7 @@ export async function GET(request: Request) {
 	const { session } = await validateRequest();
 
 	if (!session) {
-		return redirect("/");
+		redirect("/");
 	}
 
 	await logout();

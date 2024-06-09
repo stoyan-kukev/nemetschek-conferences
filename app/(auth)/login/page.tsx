@@ -19,7 +19,11 @@ export default async function Page() {
 				</div>
 
 				<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-					<form className="space-y-6" action={login}>
+					<form
+						className="space-y-6"
+						action="/login/handler"
+						method="POST"
+					>
 						<div>
 							<label
 								htmlFor="username"
