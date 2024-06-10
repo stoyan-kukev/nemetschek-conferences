@@ -1,13 +1,11 @@
-import { login } from "@/actions/login";
-import { validateRequest } from "@/lib/db";
-import { redirect } from "next/navigation";
+"use client";
 
-export default async function Page() {
-	const { session } = await validateRequest();
+import { State, login } from "@/actions/login";
+import { useFormState } from "react-dom";
 
-	if (session) {
-		redirect("/dashboard");
-	}
+export default function Page() {
+	const initialState: State = { message: null, errors: {} };
+	const [state, dispatch] = useFormState(login, initialState);
 
 	return (
 		<>
@@ -19,11 +17,7 @@ export default async function Page() {
 				</div>
 
 				<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-					<form
-						className="space-y-6"
-						action="/login/handler"
-						method="POST"
-					>
+					<form className="space-y-6" action={dispatch}>
 						<div>
 							<label
 								htmlFor="username"
@@ -40,6 +34,23 @@ export default async function Page() {
 									required
 									className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 								/>
+							</div>
+							<div
+								id="customer-error"
+								aria-live="polite"
+								aria-atomic="true"
+							>
+								{state.errors?.username &&
+									state.errors.username.map(
+										(error: string) => (
+											<p
+												className="mt-2 text-sm text-red-500"
+												key={error}
+											>
+												{error}
+											</p>
+										),
+									)}
 							</div>
 						</div>
 
@@ -62,6 +73,34 @@ export default async function Page() {
 									className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 								/>
 							</div>
+							<div
+								id="customer-error"
+								aria-live="polite"
+								aria-atomic="true"
+							>
+								{state.errors?.password &&
+									state.errors.password.map(
+										(error: string) => (
+											<p
+												className="mt-2 text-sm text-red-500"
+												key={error}
+											>
+												{error}
+											</p>
+										),
+									)}
+							</div>
+						</div>
+						<div
+							id="customer-error"
+							aria-live="polite"
+							aria-atomic="true"
+						>
+							{state.message && (
+								<p className="mt-2 text-sm text-red-500">
+									{state.message}
+								</p>
+							)}
 						</div>
 
 						<div>

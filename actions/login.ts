@@ -8,56 +8,68 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-export async function login(formData: FormData) {
-	const username = formData.get("username");
-	if (
-		typeof username !== "string" ||
-		username.length < 3 ||
-		username.length > 31 ||
-		!/^[a-z0-9_-]+$/.test(username)
-	) {
-		return {
-			error: "Invalid username",
-		};
-	}
+const FormSchema = z
+	.object({
+		username: z
+			.string({
+				invalid_type_error: "Invalid username",
+			})
+			.regex(/^[a-z0-9_-]+$/, "Invalid username"),
+		password: z.string({ invalid_type_error: "Invalid password" }),
+	})
+	.refine(async ({ username, password }) => {
+		const userExists = db
+			.select()
+			.from(userTable)
+			.where(eq(userTable.username, username))
+			.get();
 
-	const password = formData.get("password");
-	if (
-		typeof password !== "string" ||
-		password.length < 6 ||
-		password.length > 255
-	) {
-		return {
-			error: "Invalid password",
-		};
-	}
+		if (userExists === undefined) return false;
 
-	const existingUser = db
-		.select()
-		.from(userTable)
-		.where(eq(userTable.username, username))
-		.get();
+		const isValidPassword = await verify(
+			userExists.password_hash,
+			password,
+			{
+				memoryCost: 19456,
+				timeCost: 2,
+				outputLen: 32,
+				parallelism: 1,
+			},
+		);
 
-	if (!existingUser) {
-		return {
-			error: "Incorrect username or password",
-		};
-	}
+		return isValidPassword;
+	}, "Incorrect username or password");
 
-	const validPassword = await verify(existingUser.password_hash, password, {
-		memoryCost: 19456,
-		timeCost: 2,
-		outputLen: 32,
-		parallelism: 1,
+export type State = {
+	errors?: {
+		username?: string[];
+		password?: string[];
+	};
+	message?: string[] | null;
+};
+
+export async function login(prevState: State, formData: FormData) {
+	const validatedFields = await FormSchema.safeParseAsync({
+		username: formData.get("username"),
+		password: formData.get("password"),
 	});
 
-	if (!validPassword) {
+	if (!validatedFields.success) {
+		const { fieldErrors, formErrors } = validatedFields.error.flatten();
+
 		return {
-			error: "Incorrect username or password",
+			errors: fieldErrors,
+			message: formErrors,
 		};
 	}
 
-	const session = await lucia.createSession(existingUser.id, {});
+	const { username } = validatedFields.data;
+	const existingUser = await db
+		.selectDistinct()
+		.from(userTable)
+		.where(eq(userTable.username, username));
+
+	const session = await lucia.createSession(existingUser[0].id, {});
 	const sessionCookie = lucia.createSessionCookie(session.id);
 	const { name, value, attributes } = sessionCookie;
 	cookies().set(name, value, attributes);

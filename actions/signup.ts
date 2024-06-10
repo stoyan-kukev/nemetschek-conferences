@@ -42,7 +42,7 @@ export type State = {
 };
 
 export async function signup(prevState: State, formData: FormData) {
-	const validatedFields = FormSchema.safeParse({
+	const validatedFields = await FormSchema.safeParseAsync({
 		username: formData.get("username"),
 		password: formData.get("password"),
 	});
