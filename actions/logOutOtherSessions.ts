@@ -6,49 +6,60 @@ import { verify } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
+import { z } from "zod";
 
-type ActionResult = {
-	error?: string;
+const FormSchema = z.object({
+	current_password: z
+		.string({
+			invalid_type_error: "Invalid current password",
+		})
+		.refine(async (password) => {
+			const { user } = await validateRequest();
+			if (!user) return false;
+
+			const { current_password } = await db
+				.selectDistinct({
+					current_password: userTable.password_hash,
+				})
+				.from(userTable)
+				.where(eq(userTable.id, user.id))
+				.then((val) => val[0]);
+
+			const isValidPassword = await verify(current_password, password, {
+				memoryCost: 19456,
+				timeCost: 2,
+				outputLen: 32,
+				parallelism: 1,
+			});
+
+			return isValidPassword;
+		}, "Current password is wrong"),
+});
+
+export type State = {
+	errors?: {
+		current_password?: string[];
+	};
+	message?: string[] | null;
 };
 
 export async function logOutOtherSessions(
+	prevState: State,
 	formData: FormData,
-): Promise<ActionResult> {
+): Promise<State> {
 	const { user } = await validateRequest();
-	if (!user) {
-		return {
-			error: "server;Unauthorized",
-		};
-	}
+	if (!user) return {};
 
-	const currentPassword = formData.get("your-password");
-	if (
-		typeof currentPassword !== "string" ||
-		currentPassword.length < 6 ||
-		currentPassword.length > 255
-	) {
-		return {
-			error: "currentPassword;Invalid current password",
-		};
-	}
-
-	const possibleHash = await db
-		.selectDistinct({ userPass: userTable.password_hash })
-		.from(userTable)
-		.where(eq(userTable.id, user.id));
-
-	const { userPass } = possibleHash[0];
-
-	const validPassword = await verify(userPass, currentPassword, {
-		memoryCost: 19456,
-		timeCost: 2,
-		outputLen: 32,
-		parallelism: 1,
+	const validatedFields = await FormSchema.safeParseAsync({
+		current_password: formData.get("current_password"),
 	});
 
-	if (!validPassword) {
+	if (!validatedFields.success) {
+		const { fieldErrors, formErrors } = validatedFields.error.flatten();
+
 		return {
-			error: "currentPassword;Incorrect current password",
+			errors: fieldErrors,
+			message: formErrors,
 		};
 	}
 
@@ -60,5 +71,7 @@ export async function logOutOtherSessions(
 
 	revalidatePath("/dashboard/settings");
 
-	return {};
+	return {
+		message: ["Logged out of other sessions successfully!"],
+	};
 }

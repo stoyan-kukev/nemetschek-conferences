@@ -1,10 +1,12 @@
 export default function InputFields({
 	items,
+	state,
 }: {
 	items: { col: string; labelName: string; value?: string }[];
+	state: { errors?: any; message?: any };
 }) {
 	return items.map((item) => {
-		const htmlName = item.labelName.toLowerCase().replaceAll(" ", "-");
+		const htmlName = item.labelName.toLowerCase().replaceAll(" ", "_");
 
 		return (
 			<>
@@ -28,6 +30,22 @@ export default function InputFields({
 								shadow-sm text-white bg-white/5 rounded-md w-full"
 							defaultValue={item.value}
 						/>
+						<div
+							id="customer-error"
+							aria-live="polite"
+							aria-atomic="true"
+						>
+							{state.errors &&
+								state.errors[htmlName] &&
+								state.errors[htmlName].map((error: string) => (
+									<p
+										className="mt-2 text-sm text-red-500"
+										key={error}
+									>
+										{error}
+									</p>
+								))}
+						</div>
 					</div>
 				</div>
 			</>

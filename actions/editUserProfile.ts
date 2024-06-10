@@ -3,84 +3,89 @@
 import { db, validateRequest } from "@/lib/db";
 import { userTable } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { z } from "zod";
 
 function isValidEmail(input: string) {
 	const regex = /^(?! )[^\s@]{1,254}@[^@\s]+\.[^@\s]+(?<! )$/;
 	return regex.test(input) && input.length <= 255;
 }
 
+const FormSchema = z.object({
+	first_name: z
+		.string({
+			invalid_type_error: "Invalid first name",
+		})
+		.optional(),
+	last_name: z
+		.string({
+			invalid_type_error: "Invalid first name",
+		})
+		.optional(),
+	username: z
+		.string({
+			invalid_type_error: "Invalid username",
+		})
+		.regex(/^[a-z0-9_-]+$/, "Invalid username")
+		.refine((username) => {
+			const foundUser = db
+				.select()
+				.from(userTable)
+				.where(eq(userTable.username, username))
+				.get();
+
+			return !foundUser || foundUser.username == username;
+		}, "Username taken"),
+	email: z
+		.string({
+			invalid_type_error: "Invalid email",
+		})
+		.refine((email) => isValidEmail(email), "Invalid email")
+		.optional(),
+});
+
+export type State = {
+	errors?: {
+		first_name?: string[];
+		last_name?: string[];
+		username?: string[];
+		email?: string[];
+	};
+	message?: string[] | null;
+};
+
 export async function editUserProfile(
-	formData: FormData
-): Promise<ActionResult> {
-	console.log(formData);
-
+	prevState: State,
+	formData: FormData,
+): Promise<State> {
 	const { session, user } = await validateRequest();
-	if (!session) {
-		console.log("session");
+	if (!session) return {};
+
+	const validatedFields = await FormSchema.safeParseAsync({
+		username: formData.get("username"),
+		email: formData.get("email"),
+		first_name: formData.get("first_name"),
+		last_name: formData.get("last_name"),
+	});
+
+	if (!validatedFields.success) {
+		const { fieldErrors, formErrors } = validatedFields.error.flatten();
+
 		return {
-			error: "You must be authenticated to edit your profile",
+			errors: fieldErrors,
+			message: formErrors,
 		};
 	}
 
-	const firstName = formData.get("first-name");
-	if (
-		typeof firstName !== "string" ||
-		firstName.length < 2 ||
-		firstName.length > 40
-	) {
-		return {
-			error: "Invalid fisrt name",
-		};
-	}
+	const { username, email, first_name, last_name } = validatedFields.data;
 
-	const lastName = formData.get("last-name");
-	if (
-		typeof lastName !== "string" ||
-		lastName.length < 2 ||
-		lastName.length > 40
-	) {
-		return {
-			error: "Invalid last name",
-		};
-	}
-
-	const username = formData.get("username");
-	if (
-		typeof username !== "string" ||
-		username.length < 3 ||
-		username.length > 31 ||
-		!/^[a-z0-9_-]+$/.test(username)
-	) {
-		return {
-			error: "Invalid username",
-		};
-	}
-
-	const foundUsername = await db
-		.selectDistinct()
-		.from(userTable)
-		.where(eq(userTable.username, username));
-
-	if (foundUsername[0] && foundUsername[0].id != user.id) {
-		return {
-			error: "Username taken",
-		};
-	}
-
-	const email = formData.get("email");
-	if (typeof email !== "string" || !isValidEmail(email)) {
-		console.log("email");
-		return {
-			error: "Invalid email",
-		};
-	}
+	console.log(username, email, first_name, last_name);
 
 	await db
 		.update(userTable)
-		.set({ email, username, firstName, lastName })
+		.set({ username, email, firstName: first_name, lastName: last_name })
 		.where(eq(userTable.id, user.id));
 
 	return {
-		error: "",
+		message: ["Profile edited successfully!"],
 	};
 }
