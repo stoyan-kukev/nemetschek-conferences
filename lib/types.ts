@@ -1,3 +1,3 @@
 interface ActionResult {
-	error: string;
+	error?: string;
 }

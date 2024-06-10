@@ -1,48 +1,60 @@
+"use server";
+
 import { db, lucia } from "@/lib/db";
 import { userTable } from "@/lib/db/schema";
 import { hash } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
 import { generateIdFromEntropySize } from "lucia";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { z } from "zod";
 
-export async function signup(formData: FormData): Promise<ActionResult> {
-	"use server";
+const FormSchema = z.object({
+	username: z
+		.string({
+			invalid_type_error: "Invalid username",
+		})
+		.min(3, "Username too short")
+		.max(31, "Username too long")
+		.regex(/^[a-z0-9_-]+$/, "Invalid username")
+		.refine(
+			(username) =>
+				!db
+					.select()
+					.from(userTable)
+					.where(eq(userTable.username, username))
+					.get(),
+			"Username taken",
+		),
+	password: z
+		.string({ invalid_type_error: "Invalid password" })
+		.min(6, "Password too short")
+		.max(255, "Password too long"),
+});
 
-	const username = formData.get("username");
-	if (
-		typeof username !== "string" ||
-		username.length < 3 ||
-		username.length > 31 ||
-		!/^[a-z0-9_-]+$/.test(username)
-	) {
+export type State = {
+	errors?: {
+		username?: string[];
+		password?: string[];
+	};
+	message?: string | null;
+};
+
+export async function signup(prevState: State, formData: FormData) {
+	const validatedFields = FormSchema.safeParse({
+		username: formData.get("username"),
+		password: formData.get("password"),
+	});
+
+	if (!validatedFields.success) {
 		return {
-			error: "Invalid username",
+			errors: validatedFields.error.flatten().fieldErrors,
+			message: "Missing fields. Failed to create an invoice.",
 		};
 	}
 
-	if (
-		db
-			.select()
-			.from(userTable)
-			.where(eq(userTable.username, username))
-			.get()
-	) {
-		return {
-			error: "Username taken",
-		};
-	}
-
-	const password = formData.get("password");
-	if (
-		typeof password !== "string" ||
-		password.length < 6 ||
-		password.length > 255
-	) {
-		return {
-			error: "Invalid password",
-		};
-	}
+	const { password, username } = validatedFields.data;
 
 	const passwordHash = await hash(password, {
 		memoryCost: 19456,
@@ -64,5 +76,5 @@ export async function signup(formData: FormData): Promise<ActionResult> {
 	const { name, value, attributes } = sessionCookie;
 	cookies().set(name, value, attributes);
 
-	redirect("/dashboard");
+	redirect("/test/232");
 }

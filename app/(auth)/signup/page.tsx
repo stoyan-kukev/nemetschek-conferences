@@ -1,6 +1,12 @@
-import { signup } from "@/actions/signup";
+"use client";
 
-export default async function Page() {
+import { State, signup } from "@/actions/signup";
+import { useFormState } from "react-dom";
+
+export default function Page() {
+	const initialState: State = { message: null, errors: {} };
+	const [state, dispatch] = useFormState(signup, initialState);
+
 	return (
 		<>
 			<div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -11,11 +17,7 @@ export default async function Page() {
 				</div>
 
 				<div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-					<form
-						className="space-y-6"
-						action="/signup/handler"
-						method="POST"
-					>
+					<form className="space-y-6" action={dispatch}>
 						<div>
 							<label
 								htmlFor="username"
@@ -32,6 +34,23 @@ export default async function Page() {
 									required
 									className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 								/>
+							</div>
+							<div
+								id="customer-error"
+								aria-live="polite"
+								aria-atomic="true"
+							>
+								{state.errors?.username &&
+									state.errors.username.map(
+										(error: string) => (
+											<p
+												className="mt-2 text-sm text-red-500"
+												key={error}
+											>
+												{error}
+											</p>
+										),
+									)}
 							</div>
 						</div>
 
@@ -53,6 +72,23 @@ export default async function Page() {
 									required
 									className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
 								/>
+							</div>
+							<div
+								id="customer-error"
+								aria-live="polite"
+								aria-atomic="true"
+							>
+								{state.errors?.password &&
+									state.errors.password.map(
+										(error: string) => (
+											<p
+												className="mt-2 text-sm text-red-500"
+												key={error}
+											>
+												{error}
+											</p>
+										),
+									)}
 							</div>
 						</div>
 
