@@ -5,40 +5,38 @@ export default function DesktopNav({
 }) {
 	return (
 		<>
-			<div className="hidden sm:fixed sm:top-0 sm:bottom-0 sm:z-50 sm:flex sm:flex-col sm:w-[18rem] bg-slate-800 text-white">
-				<div className="overflow-hidden flex flex-col gap-y-5 flex-grow">
-					<div className="flex flex-shrink-0 h-16 justify-center items-center ">
-						<h2 className="font-bold bg-indigo-600/50 text-white  rounded-xl p-3">
+			<div className="hidden bg-slate-800 text-white sm:fixed sm:bottom-0 sm:top-0 sm:z-50 sm:flex sm:w-[18rem] sm:flex-col">
+				<div className="flex flex-grow flex-col gap-y-5 overflow-hidden">
+					<div className="flex h-16 flex-shrink-0 items-center justify-center">
+						<h2 className="rounded-xl bg-indigo-600/50 p-3 font-bold text-white">
 							Nemetschek Conferences
 						</h2>
 					</div>
-					<nav className="flex flex-col flex-1">
-						<ul className="gap-y-7 flex flex-col flex-1">
+					<nav className="flex flex-1 flex-col">
+						<ul className="flex flex-1 flex-col gap-y-7">
 							{items.map((item) => (
-								<>
-									<li>
-										<ul className="-mx-2">
-											<li>
-												<a
-													className="leading-6 p-2 ml-4 gap-x-3 flex"
-													href={item.href}
-												>
-													{item.icon}
-													{item.text}
-												</a>
-											</li>
-										</ul>
-									</li>
-								</>
+								<li key={item.text}>
+									<ul className="-mx-2">
+										<li>
+											<a
+												className="ml-4 flex gap-x-3 p-2 leading-6"
+												href={item.href}
+											>
+												{item.icon}
+												{item.text}
+											</a>
+										</li>
+									</ul>
+								</li>
 							))}
 
 							<li></li>
 							<a
 								href="/logout"
-								className=" mt-auto cursosr text-center bg-red-500 text-white   "
+								className="cursosr mt-auto bg-red-500 text-center text-white"
 							>
 								<li>
-									<button className=" mx-6 py-3 ">
+									<button className="mx-6 py-3">
 										Sign out
 									</button>
 								</li>

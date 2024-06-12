@@ -13,15 +13,16 @@ export default function MobileNav({
 
 	return (
 		<>
-			<button
-				onClick={() => setOpen(true)}
-				className="sm:hidden inline-flex w-full justify-between items-center p-2 text-white bg-slate-900"
-			>
+			<button className="inline-flex w-full items-center justify-between bg-slate-900 p-2 text-white sm:hidden">
 				<span className="sr-only">Open main menu</span>
-				<h2 className="font-bold border-white border-2 rounded-xl p-2">
+				<h2 className="rounded-xl border-2 border-white p-2 font-bold">
 					Nemetschek Conferences
 				</h2>
-				<Bars3Icon className="block h-8 w-8" aria-hidden="true" />
+				<Bars3Icon
+					onClick={() => setOpen(true)}
+					className="block h-8 w-8"
+					aria-hidden="true"
+				/>
 			</button>
 
 			<Dialog className="relative z-10" onClose={setOpen} open={open}>
@@ -47,7 +48,7 @@ export default function MobileNav({
 										/>
 									</button>
 								</div>
-								<div className="flex h-full flex-col overflow-y-scroll bg-white  shadow-xl">
+								<div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
 									{/* <div className="px-4 sm:px-6">
 									<DialogTitle className="text-base font-semibold leading-6 text-gray-900">
 										Panel title
@@ -73,33 +74,31 @@ function Nav({
 }) {
 	return (
 		<>
-			<nav className="absolute inset-0 bg-slate-900 flex flex-col flex-1 overflow-hidden text-white pt-10">
-				<ul className="gap-y-7 flex flex-col flex-1">
+			<nav className="absolute inset-0 flex flex-1 flex-col overflow-hidden bg-slate-900 pt-10 text-white">
+				<ul className="flex flex-1 flex-col gap-y-7">
 					{items.map((item) => (
-						<>
-							<li>
-								<ul className="-mx-2">
-									<li>
-										<a
-											className="leading-6 p-2 ml-4 gap-x-3 flex"
-											href={item.href}
-										>
-											{item.icon}
-											{item.text}
-										</a>
-									</li>
-								</ul>
-							</li>
-						</>
+						<li key={item.text}>
+							<ul className="-mx-2">
+								<li>
+									<a
+										className="ml-4 flex gap-x-3 p-2 leading-6"
+										href={item.href}
+									>
+										{item.icon}
+										{item.text}
+									</a>
+								</li>
+							</ul>
+						</li>
 					))}
 
 					<li></li>
 					<a
 						href="/logout"
-						className=" mt-auto cursosr text-center bg-red-500 text-white   "
+						className="cursosr mt-auto bg-red-500 text-center text-white"
 					>
 						<li>
-							<button className=" mx-6 py-3 ">Sign out</button>
+							<button className="mx-6 py-3">Sign out</button>
 						</li>
 					</a>
 				</ul>

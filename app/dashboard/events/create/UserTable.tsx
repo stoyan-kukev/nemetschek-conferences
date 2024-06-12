@@ -18,21 +18,21 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 
 	return (
 		<>
-			<div className="bg-slate-900 flex justify-center items-center min-h-screen">
-				<div className=" text-white grid min-w-[40%] grid-cols-1 py-16 px-4 gap-y-10 gap-x-8 md:grid-cols-2 md:px-6">
+			<div className="flex min-h-screen items-center justify-center bg-slate-900">
+				<div className="grid min-w-[40%] grid-cols-1 gap-x-8 gap-y-10 px-4 py-16 text-white md:grid-cols-2 md:px-6">
 					<div className="col-span-full text-center">
-						<h2 className="leading-7 text-xl font-semibold">
+						<h2 className="text-xl font-semibold leading-7">
 							Създай събитие
 						</h2>
-						<p className="leading-6 text-md mt-1 text-gray-500">
+						<p className="text-md mt-1 leading-6 text-gray-500">
 							Организирайте следващото голямо събрание!
 						</p>
 					</div>
-					<form className="col-span-full mb-10 " action={dispatch}>
-						<div className="md:grid-cols-6 grid-cols-1 gap-y-8 md:gap-x-6 grid">
+					<form className="col-span-full mb-10" action={dispatch}>
+						<div className="grid grid-cols-1 gap-y-8 md:grid-cols-6 md:gap-x-6">
 							<div className="col-span-4">
 								<label
-									className="block text-sm leading-6 font-medium"
+									className="block text-sm font-medium leading-6"
 									htmlFor="name"
 								>
 									Име на събитието
@@ -42,8 +42,7 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 										type="text"
 										id="name"
 										name="name"
-										className="ring-gray-800/10 ring-inset ring-2 
-								shadow-sm text-white bg-white/5 rounded-md w-full"
+										className="w-full rounded-md bg-white/5 text-white shadow-sm ring-2 ring-inset ring-gray-800/10"
 									/>
 									{state.errors &&
 										state.errors.name &&
@@ -61,7 +60,7 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 							</div>
 							<div className="col-span-2">
 								<label
-									className="block text-sm leading-6 font-medium"
+									className="block text-sm font-medium leading-6"
 									htmlFor="city"
 								>
 									Град
@@ -71,8 +70,7 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 										type="text"
 										id="city"
 										name="city"
-										className="ring-gray-800/10 ring-inset ring-2 
-								shadow-sm text-white bg-white/5 rounded-md w-full"
+										className="w-full rounded-md bg-white/5 text-white shadow-sm ring-2 ring-inset ring-gray-800/10"
 									/>
 									{state.errors &&
 										state.errors.city &&
@@ -90,7 +88,7 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 							</div>
 							<div className="col-span-3">
 								<label
-									className="block text-sm leading-6 font-medium"
+									className="block text-sm font-medium leading-6"
 									htmlFor="date"
 								>
 									Дата на провеждане
@@ -100,8 +98,7 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 										type="date"
 										id="date"
 										name="date"
-										className="ring-gray-800/10 ring-inset ring-2 
-								shadow-sm text-white bg-white/5 rounded-md w-full"
+										className="w-full rounded-md bg-white/5 text-white shadow-sm ring-2 ring-inset ring-gray-800/10"
 									/>
 									{state.errors &&
 										state.errors.date &&
@@ -119,7 +116,7 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 							</div>
 							<div className="col-span-3">
 								<label
-									className="block text-sm leading-6 font-medium"
+									className="block text-sm font-medium leading-6"
 									htmlFor="type"
 								>
 									Вид на събитието
@@ -128,8 +125,7 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 									<select
 										name="type"
 										id="type"
-										className="ring-gray-800/10 ring-inset ring-2 
-								shadow-sm text-white bg-slate-800 rounded-md w-full"
+										className="w-full rounded-md bg-slate-800 text-white shadow-sm ring-2 ring-inset ring-gray-800/10"
 									>
 										<option value="conference">
 											Конференция
@@ -160,18 +156,15 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 										)}
 								</div>
 							</div>
-							<div
-								className="col-span-full  
-								shadow-sm"
-							>
+							<div className="col-span-full shadow-sm">
 								<label
-									className="block text-sm leading-6 font-medium"
+									className="block text-sm font-medium leading-6"
 									htmlFor="date"
 								>
 									Организатори / Лектори
 								</label>
 
-								<ul className=" flex flex-col">{children}</ul>
+								<ul className="flex flex-col">{children}</ul>
 								{state.errors &&
 									state.errors.organisers &&
 									state.errors.organisers.map(
@@ -186,10 +179,16 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 									)}
 							</div>
 						</div>
-						<div className="flex justify-end mt-8">
+						<div className="mt-8 flex justify-between">
+							<a href="/dashboard/events">
+								<p className="rounded-md bg-red-500 px-4 py-2">
+									Exit
+								</p>
+							</a>
+
 							<button
 								type="submit"
-								className="bg-blue-500 px-4 py-2 rounded-md"
+								className="rounded-md bg-blue-500 px-4 py-2"
 							>
 								Save
 							</button>
