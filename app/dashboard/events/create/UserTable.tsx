@@ -12,7 +12,7 @@ const createEventItems = [
 	{ col: "col-span-3", labelName: "Тип", value: "" },
 ];
 
-export default function Page() {
+export default function Page({ children }: { children: JSX.Element[] }) {
 	const initialState: State = { message: null, errors: {} };
 	const [state, dispatch] = useFormState(createEvent, initialState);
 
@@ -33,65 +33,101 @@ export default function Page() {
 							<div className="col-span-4">
 								<label
 									className="block text-sm leading-6 font-medium"
-									htmlFor="event-name"
+									htmlFor="name"
 								>
 									Име на събитието
 								</label>
 								<div className="mt-2">
 									<input
 										type="text"
-										id="event-name"
-										name="event-name"
+										id="name"
+										name="name"
 										className="ring-gray-800/10 ring-inset ring-2 
 								shadow-sm text-white bg-white/5 rounded-md w-full"
 									/>
+									{state.errors &&
+										state.errors.name &&
+										state.errors.name.map(
+											(error: string) => (
+												<p
+													className="mt-2 text-sm text-red-500"
+													key={error}
+												>
+													{error}
+												</p>
+											),
+										)}
 								</div>
 							</div>
 							<div className="col-span-2">
 								<label
 									className="block text-sm leading-6 font-medium"
-									htmlFor="event-city"
+									htmlFor="city"
 								>
 									Град
 								</label>
 								<div className="mt-2">
 									<input
 										type="text"
-										id="event-city"
-										name="event-city"
+										id="city"
+										name="city"
 										className="ring-gray-800/10 ring-inset ring-2 
 								shadow-sm text-white bg-white/5 rounded-md w-full"
 									/>
+									{state.errors &&
+										state.errors.city &&
+										state.errors.city.map(
+											(error: string) => (
+												<p
+													className="mt-2 text-sm text-red-500"
+													key={error}
+												>
+													{error}
+												</p>
+											),
+										)}
 								</div>
 							</div>
 							<div className="col-span-3">
 								<label
 									className="block text-sm leading-6 font-medium"
-									htmlFor="event-date"
+									htmlFor="date"
 								>
 									Дата на провеждане
 								</label>
 								<div className="mt-2">
 									<input
 										type="date"
-										id="event-date"
-										name="event-date"
+										id="date"
+										name="date"
 										className="ring-gray-800/10 ring-inset ring-2 
 								shadow-sm text-white bg-white/5 rounded-md w-full"
 									/>
+									{state.errors &&
+										state.errors.date &&
+										state.errors.date.map(
+											(error: string) => (
+												<p
+													className="mt-2 text-sm text-red-500"
+													key={error}
+												>
+													{error}
+												</p>
+											),
+										)}
 								</div>
 							</div>
 							<div className="col-span-3">
 								<label
 									className="block text-sm leading-6 font-medium"
-									htmlFor="event-type"
+									htmlFor="type"
 								>
 									Вид на събитието
 								</label>
 								<div className="mt-2">
 									<select
-										name="event-type"
-										id="event-type"
+										name="type"
+										id="type"
 										className="ring-gray-800/10 ring-inset ring-2 
 								shadow-sm text-white bg-slate-800 rounded-md w-full"
 									>
@@ -110,20 +146,44 @@ export default function Page() {
 										<option value="meetup">Събрание</option>
 										<option value="lecture">Семинар</option>
 									</select>
+									{state.errors &&
+										state.errors.type &&
+										state.errors.type.map(
+											(error: string) => (
+												<p
+													className="mt-2 text-sm text-red-500"
+													key={error}
+												>
+													{error}
+												</p>
+											),
+										)}
 								</div>
 							</div>
 							<div
-								className="col-span-full ring-gray-800/10 ring-inset ring-2 
+								className="col-span-full  
 								shadow-sm"
 							>
 								<label
 									className="block text-sm leading-6 font-medium"
-									htmlFor="event-date"
+									htmlFor="date"
 								>
 									Организатори / Лектори
 								</label>
 
-								<Test />
+								<ul className=" flex flex-col">{children}</ul>
+								{state.errors &&
+									state.errors.organisers &&
+									state.errors.organisers.map(
+										(error: string) => (
+											<p
+												className="mt-2 text-sm text-red-500"
+												key={error}
+											>
+												{error}
+											</p>
+										),
+									)}
 							</div>
 						</div>
 						<div className="flex justify-end mt-8">

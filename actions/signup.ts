@@ -41,7 +41,10 @@ export type State = {
 	message?: string | null;
 };
 
-export async function signup(prevState: State, formData: FormData) {
+export async function signup(
+	prevState: State,
+	formData: FormData,
+): Promise<State> {
 	const validatedFields = await FormSchema.safeParseAsync({
 		username: formData.get("username"),
 		password: formData.get("password"),
@@ -76,5 +79,5 @@ export async function signup(prevState: State, formData: FormData) {
 	const { name, value, attributes } = sessionCookie;
 	cookies().set(name, value, attributes);
 
-	redirect("/test/232");
+	redirect("/dashboard");
 }

@@ -15,32 +15,34 @@ const FormSchema = z.object({
 		.string({
 			invalid_type_error: "Invalid first name",
 		})
-		.optional(),
+		.min(2, "First name too short"),
 	last_name: z
 		.string({
-			invalid_type_error: "Invalid first name",
+			invalid_type_error: "Invalid last name",
 		})
-		.optional(),
+		.min(2, "Last name too short"),
 	username: z
 		.string({
 			invalid_type_error: "Invalid username",
 		})
 		.regex(/^[a-z0-9_-]+$/, "Invalid username")
-		.refine((username) => {
+		.refine(async (username) => {
+			const { user } = await validateRequest();
+			if (!user) return;
+
 			const foundUser = db
 				.select()
 				.from(userTable)
 				.where(eq(userTable.username, username))
 				.get();
 
-			return !foundUser || foundUser.username == username;
+			return !foundUser || username == user.username;
 		}, "Username taken"),
 	email: z
 		.string({
 			invalid_type_error: "Invalid email",
 		})
-		.refine((email) => isValidEmail(email), "Invalid email")
-		.optional(),
+		.refine((email) => isValidEmail(email), "Invalid email"),
 });
 
 export type State = {
@@ -77,8 +79,6 @@ export async function editUserProfile(
 	}
 
 	const { username, email, first_name, last_name } = validatedFields.data;
-
-	console.log(username, email, first_name, last_name);
 
 	await db
 		.update(userTable)
