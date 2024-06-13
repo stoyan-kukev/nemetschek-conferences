@@ -8,28 +8,30 @@ import { z } from "zod";
 
 const FormSchema = z.object({
 	name: z
-		.string({ invalid_type_error: "Invalid name" })
-		.min(3, "Name too short")
-		.max(255, "Name too long"),
+		.string({ invalid_type_error: "Невалидно име" })
+		.min(3, "Името е твърде кратко")
+		.max(255, "Името е твърде дълго"),
 	city: z
-		.string({ invalid_type_error: "Invalid city name" })
-		.min(3, "City name too short")
-		.max(255, "City name too long"),
-	date: z.string({ invalid_type_error: "Invalid date" }).date("Missing date"),
+		.string({ invalid_type_error: "Невалидно име на град" })
+		.min(3, "Името на града е твърде кратко")
+		.max(255, "Името на града е твърде дълго"),
+	date: z
+		.string({ invalid_type_error: "Невалидна дата" })
+		.date("Липсваща дата"),
 	type: z.enum(
 		[
-			"conference",
-			"workshop",
-			"training",
-			"hackathon",
-			"meetup",
-			"lecture",
+			"конференция",
+			"уъркшоп",
+			"обучение",
+			"хакатон",
+			"събрание",
+			"семинар",
 		],
-		{ invalid_type_error: "Invalid type of conference" },
+		{ invalid_type_error: "Невалиден вид на събитие" },
 	),
 	organisers: z
-		.array(z.string(), { invalid_type_error: "Invalid organisers" })
-		.nonempty("You need to select at least one organiser"),
+		.array(z.string(), { invalid_type_error: "Невалидни организатори" })
+		.nonempty("Трябва да изберете поне един организатор/лектор"),
 });
 
 export type State = {

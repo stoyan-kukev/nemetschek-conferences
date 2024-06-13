@@ -5,10 +5,9 @@ import InputFields from "@/components/InputFields";
 import { useFormState } from "react-dom";
 
 const profileItems = [
+	{ col: "col-span-full", labelName: "Username", value: "" },
 	{ col: "col-span-full md:col-span-3", labelName: "First name", value: "" },
 	{ col: "col-span-full md:col-span-3", labelName: "Last name", value: "" },
-	{ col: "col-span-full", labelName: "Username", value: "" },
-	{ col: "col-span-full", labelName: "Email", value: "" },
 ];
 
 export default function UserProfileFields() {
@@ -18,10 +17,10 @@ export default function UserProfileFields() {
 	return (
 		<>
 			<div>
-				<h2 className="leading-7 font-semibold">
+				<h2 className="font-semibold leading-7">
 					Personal Information
 				</h2>
-				<p className="leading-6 text-sm mt-1 text-gray-500">
+				<p className="mt-1 text-sm leading-6 text-gray-500">
 					Change your personal information
 				</p>
 			</div>
@@ -29,13 +28,17 @@ export default function UserProfileFields() {
 				className="col-span-2 mb-10 md:max-w-[36rem]"
 				action={dispatch}
 			>
-				<div className="md:grid-cols-6 gap-y-8 gap-x-6 grid">
-					<InputFields items={profileItems} state={state} />
+				<div className="grid gap-x-6 gap-y-8 md:grid-cols-6">
+					<InputFields
+						items={profileItems}
+						state={state}
+						darkMode={true}
+					/>
 				</div>
-				<div className="flex justify-end flex-col mt-8">
+				<div className="mt-8 flex flex-col justify-end">
 					<button
 						type="submit"
-						className="bg-blue-500 px-4 py-2 rounded-md"
+						className="rounded-md bg-blue-500 px-4 py-2"
 					>
 						Save
 					</button>

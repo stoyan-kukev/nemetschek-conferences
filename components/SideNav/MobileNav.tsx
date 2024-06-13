@@ -2,7 +2,8 @@
 
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { XMarkIcon, Bars3Icon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import Link from "next/link";
+import { Dispatch, SetStateAction, useState } from "react";
 
 export default function MobileNav({
 	items,
@@ -55,7 +56,7 @@ export default function MobileNav({
 									</DialogTitle>
 								</div> */}
 									<div className="relative flex-1">
-										<Nav items={items} />
+										<Nav items={items} setOpen={setOpen} />
 									</div>
 								</div>
 							</DialogPanel>
@@ -69,38 +70,40 @@ export default function MobileNav({
 
 function Nav({
 	items,
+	setOpen,
 }: {
 	items: { text: string; href: string; icon: JSX.Element }[];
+	setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
 	return (
 		<>
 			<nav className="absolute inset-0 flex flex-1 flex-col overflow-hidden bg-slate-900 pt-10 text-white">
 				<ul className="flex flex-1 flex-col gap-y-7">
 					{items.map((item) => (
-						<li key={item.text}>
+						<li key={item.text} onClick={() => setOpen(false)}>
 							<ul className="-mx-2">
 								<li>
-									<a
+									<Link
 										className="ml-4 flex gap-x-3 p-2 leading-6"
 										href={item.href}
 									>
 										{item.icon}
 										{item.text}
-									</a>
+									</Link>
 								</li>
 							</ul>
 						</li>
 					))}
 
 					<li></li>
-					<a
-						href="/logout"
+					<Link
+						href="/dashboard/logout"
 						className="cursosr mt-auto bg-red-500 text-center text-white"
 					>
 						<li>
 							<button className="mx-6 py-3">Sign out</button>
 						</li>
-					</a>
+					</Link>
 				</ul>
 			</nav>
 		</>

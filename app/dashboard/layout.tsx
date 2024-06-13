@@ -20,15 +20,19 @@ export default async function RootLayout({
 }>) {
 	const { session } = await validateRequest();
 
-	if (!session) {
-		redirect("/");
-	}
-
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<SideNav />
-				<main className="sm:ml-[18rem]">{children}</main>
+				{session ? (
+					<>
+						<SideNav />
+						<main className="sm:ml-[18rem]">{children}</main>
+					</>
+				) : (
+					<>
+						<main className="h-screen">{children}</main>
+					</>
+				)}
 			</body>
 		</html>
 	);

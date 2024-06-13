@@ -7,6 +7,7 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { MobileMenu } from "./MobileMenu";
+import Link from "next/link";
 
 const navigation = [
 	{ name: "Dashboard", href: "#", current: false },
@@ -50,14 +51,14 @@ export default function LoggedOutNav() {
 								<div className="hidden sm:ml-6 sm:block">
 									<div className="flex space-x-4">
 										{navigation.map((item) => (
-											<a
+											<Link
 												key={item.name}
 												href={item.href}
 												className={classNames(
 													item.current
 														? "bg-gray-900 text-white"
 														: "text-gray-300 hover:bg-gray-700 hover:text-white",
-													"rounded-md px-3 py-2 text-sm font-medium"
+													"rounded-md px-3 py-2 text-sm font-medium",
 												)}
 												aria-current={
 													item.current
@@ -66,20 +67,20 @@ export default function LoggedOutNav() {
 												}
 											>
 												{item.name}
-											</a>
+											</Link>
 										))}
 									</div>
 								</div>
 							</div>
 							<div className="absolute inset-y-0 right-0 flex items-center justify-between pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-								<a href="/login">
+								<Link href="/dashboard/login">
 									<button
 										type="button"
 										className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
 									>
 										Login
 									</button>
-								</a>
+								</Link>
 							</div>
 						</div>
 					</div>

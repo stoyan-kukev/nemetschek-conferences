@@ -1,7 +1,6 @@
 import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LoggedOutNav from "@/components/Navbar/LoggedOutNav";
 
@@ -20,7 +19,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<div className="flex flex-col h-screen justify-between">
+				<div className="flex h-screen flex-col justify-between">
 					<LoggedOutNav />
 					<main className="mb-auto">{children}</main>
 					<Footer />

@@ -15,12 +15,12 @@ function classNames(...classes: string[]) {
 
 export default function Dropdown() {
 	return (
-		<Menu as="div" className="relative text-left w-full">
+		<Menu as="div" className="relative w-full text-left">
 			<div>
-				<MenuButton className="border-dotted w-full border-gray-500 border-2 rounded-lg p-5 text-center mt-2 select-none cursor-pointer">
+				<MenuButton className="mt-2 w-full cursor-pointer select-none rounded-lg border-2 border-dotted border-gray-500 p-5 text-center">
 					<div className="">
 						Добави лектор{" "}
-						<PlusIcon className="size-6 inline text-white" />
+						<PlusIcon className="inline size-6 text-white" />
 					</div>
 				</MenuButton>
 			</div>
@@ -28,9 +28,9 @@ export default function Dropdown() {
 			<MenuItems className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-slate-800 text-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 				<div className="py-1">
 					<MenuItem>
-						<a href="#" className="block px-2 py-2 text-sm">
+						<Link href="#" className="block px-2 py-2 text-sm">
 							Account settings
-						</a>
+						</Link>
 					</MenuItem>
 				</div>
 			</MenuItems>

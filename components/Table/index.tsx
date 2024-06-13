@@ -1,9 +1,19 @@
 "use client";
 
-import { Dispatch, SetStateAction, useState } from "react";
+import {
+	Dispatch,
+	SetStateAction,
+	useEffect,
+	useReducer,
+	useState,
+} from "react";
 import TableHead from "./TableHead";
 import Dropdown from "@/components/Dropdown";
 import { Event } from "@/actions/fetchEvents";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import deleteEvent from "@/actions/deleteEvent";
+import { useFormState } from "react-dom";
+import Link from "next/link";
 
 export enum Order {
 	Ascending,
@@ -31,81 +41,95 @@ export default function Table({ data }: { data: Event[] }) {
 	});
 
 	const [tableData, setTableData] = useState(data);
+
 	const [dateStart, setDateStart] = useState("");
 	const [dateEnd, setDateEnd] = useState("");
-
 	const [searchKeyword, setSearchKeyword] = useState("");
 
-	const filterData = () => {};
+	useEffect(() => {
+		filterData();
+	}, [dateStart, dateEnd, searchKeyword]);
 
-	const handleDateChange = () => {
-		if (dateStart != "" && dateEnd != "") {
-			setTableData(
-				tableData.filter(
-					({ startDate }) =>
-						startDate >= dateStart && startDate <= dateEnd,
-				),
-			);
+	const handleDeleteEvent = async (id: string) => {
+		try {
+			const formData = new FormData();
+			formData.append("id", id);
+			const response = await deleteEvent(formData);
+			if (response?.error) {
+				console.error(response.error);
+			} else {
+				setTableData((prevData) =>
+					prevData.filter((event) => event.id !== id),
+				);
+			}
+		} catch (error) {
+			console.error("Error deleting event:", error);
 		}
 	};
 
+	const filterData = () => {
+		let filtered = data;
+
+		// Filter by date range
+		if (dateStart && dateEnd) {
+			const start = new Date(dateStart);
+			const end = new Date(dateEnd);
+			filtered = filtered.filter(({ startDate }) => {
+				const eventDate = new Date(startDate);
+				return eventDate >= start && eventDate <= end;
+			});
+		}
+
+		// Filter by search keyword
+		if (searchKeyword) {
+			const keyword = searchKeyword.toLowerCase();
+			filtered = filtered.filter((item) =>
+				Object.values(item).some((val) =>
+					val
+						? val.toString().toLowerCase().includes(keyword)
+						: false,
+				),
+			);
+		}
+
+		// Sort data based on orders
+		let sortedData = filtered;
+		Object.keys(orders).forEach((category) => {
+			// @ts-ignore
+			if (orders[category] !== Order.Default) {
+				sortedData = OrderByCategory(
+					sortedData,
+					category,
+					// @ts-ignore
+					orders[category],
+					setOrders,
+				);
+			}
+		});
+
+		setTableData(sortedData);
+	};
+
 	const handleSort = (category: string) => {
-		let sortedData = OrderByCategory(
+		const sortedData = OrderByCategory(
 			tableData,
 			category,
 			// @ts-ignore
 			orders[category],
 			setOrders,
 		);
-
-		const preference = sortedData.filter((item) =>
-			item.name.toLowerCase().split(" ").join("").includes("devbites"),
-		);
-		const nonPreference = sortedData.filter(
-			(item) =>
-				!item.name
-					.toLowerCase()
-					.split(" ")
-					.join("")
-					.includes("devbites"),
-		);
-
-		handleDateChange();
-
-		setTableData([...preference, ...nonPreference]);
+		setTableData(sortedData);
 	};
 
 	const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const keyword = event.target.value.toLowerCase();
-		setSearchKeyword(keyword);
-		const filteredData = data.filter((item) =>
-			Object.values(item).some((val) =>
-				val ? val.toString().toLowerCase().includes(keyword) : false,
-			),
-		);
-
-		const preference = filteredData.filter((item) =>
-			item.name.toLowerCase().split(" ").join("").includes("devbites"),
-		);
-		const nonPreference = filteredData.filter(
-			(item) =>
-				!item.name
-					.toLowerCase()
-					.split(" ")
-					.join("")
-					.includes("devbites"),
-		);
-
-		handleDateChange();
-
-		setTableData([...preference, ...nonPreference]);
+		setSearchKeyword(event.target.value);
 	};
 
 	return (
 		<div className="flex min-h-screen justify-center bg-slate-900 text-white">
-			<div className="my-auto flex min-h-[75vh] flex-col justify-start md:min-w-[80%]">
+			<div className="mt-10 flex min-h-[75vh] flex-col justify-start sm:my-auto md:min-w-[80%]">
 				<div className="grid grid-rows-2">
-					<div className="flex items-center justify-center">
+					<div className="flex items-center justify-between">
 						<input
 							type="text"
 							placeholder="Search..."
@@ -113,13 +137,13 @@ export default function Table({ data }: { data: Event[] }) {
 							onChange={handleSearch}
 							className="w-3/4 rounded-lg bg-slate-800 text-white sm:p-2"
 						/>
-						<a href="/dashboard/events/create">
+						<Link href="/dashboard/events/create">
 							<button className="m-3 rounded-lg bg-blue-500 sm:p-3">
 								Add new event
 							</button>
-						</a>
+						</Link>
 					</div>
-					<div className="mt-2 flex justify-around">
+					<div className="mt-2 flex items-center justify-evenly">
 						<span>
 							От:{" "}
 							<input
@@ -179,6 +203,14 @@ export default function Table({ data }: { data: Event[] }) {
 											<Dropdown organisers={organisers}>
 												Организатори
 											</Dropdown>
+										</td>
+										<td>
+											<XMarkIcon
+												className="size-6 cursor-pointer rounded-xl bg-red-500"
+												onClick={() =>
+													handleDeleteEvent(id)
+												}
+											/>
 										</td>
 									</tr>
 								),

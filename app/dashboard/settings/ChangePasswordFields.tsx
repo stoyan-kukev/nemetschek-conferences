@@ -17,8 +17,8 @@ export default function ChangePasswordFields() {
 	return (
 		<>
 			<div>
-				<h2 className="leading-7 font-semibold">Change password</h2>
-				<p className="leading-6 text-sm mt-1 text-gray-500">
+				<h2 className="font-semibold leading-7">Change password</h2>
+				<p className="mt-1 text-sm leading-6 text-gray-500">
 					Update your password associated with your account
 				</p>
 			</div>
@@ -26,11 +26,15 @@ export default function ChangePasswordFields() {
 				className="col-span-2 mb-10 md:max-w-[36rem]"
 				action={dispatch}
 			>
-				<div className="md:grid-cols-6 gap-y-8 gap-x-6 grid">
-					<InputFields items={passwordItems} state={state} />
+				<div className="grid gap-x-6 gap-y-8 md:grid-cols-6">
+					<InputFields
+						items={passwordItems}
+						state={state}
+						darkMode={true}
+					/>
 				</div>
-				<div className="flex justify-end flex-col mt-8">
-					<button className="bg-blue-500 px-4 py-2 rounded-md">
+				<div className="mt-8 flex flex-col justify-end">
+					<button className="rounded-md bg-blue-500 px-4 py-2">
 						Save
 					</button>
 					{state.message && (

@@ -4,7 +4,6 @@ import { db, lucia, validateRequest } from "@/lib/db";
 import { userTable } from "@/lib/db/schema";
 import { verify } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { z } from "zod";
 
@@ -68,8 +67,6 @@ export async function logOutOtherSessions(
 	const sessionCookie = lucia.createSessionCookie(session.id);
 	const { name, value, attributes } = sessionCookie;
 	cookies().set(name, value, attributes);
-
-	revalidatePath("/dashboard/settings");
 
 	return {
 		message: ["Logged out of other sessions successfully!"],

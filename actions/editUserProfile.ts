@@ -5,11 +5,6 @@ import { userTable } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { z } from "zod";
 
-function isValidEmail(input: string) {
-	const regex = /^(?! )[^\s@]{1,254}@[^@\s]+\.[^@\s]+(?<! )$/;
-	return regex.test(input) && input.length <= 255;
-}
-
 const FormSchema = z.object({
 	first_name: z
 		.string({
@@ -38,11 +33,6 @@ const FormSchema = z.object({
 
 			return !foundUser || username == user.username;
 		}, "Username taken"),
-	email: z
-		.string({
-			invalid_type_error: "Invalid email",
-		})
-		.refine((email) => isValidEmail(email), "Invalid email"),
 });
 
 export type State = {
@@ -50,7 +40,6 @@ export type State = {
 		first_name?: string[];
 		last_name?: string[];
 		username?: string[];
-		email?: string[];
 	};
 	message?: string[] | null;
 };
@@ -64,7 +53,6 @@ export async function editUserProfile(
 
 	const validatedFields = await FormSchema.safeParseAsync({
 		username: formData.get("username"),
-		email: formData.get("email"),
 		first_name: formData.get("first_name"),
 		last_name: formData.get("last_name"),
 	});
@@ -78,11 +66,11 @@ export async function editUserProfile(
 		};
 	}
 
-	const { username, email, first_name, last_name } = validatedFields.data;
+	const { username, first_name, last_name } = validatedFields.data;
 
 	await db
 		.update(userTable)
-		.set({ username, email, firstName: first_name, lastName: last_name })
+		.set({ username, firstName: first_name, lastName: last_name })
 		.where(eq(userTable.id, user.id));
 
 	return {

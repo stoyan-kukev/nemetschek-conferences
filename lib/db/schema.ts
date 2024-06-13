@@ -3,10 +3,8 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 export const userTable = sqliteTable("user", {
 	id: text("id").notNull().primaryKey(),
 	username: text("username").notNull().unique(),
-	firstName: text("first_name"),
-	lastName: text("last_name"),
-	email: text("email"),
-	role: text("role").notNull().default("user"),
+	firstName: text("first_name").notNull(),
+	lastName: text("last_name").notNull(),
 	password_hash: text("password_hash").notNull(),
 });
 
@@ -26,7 +24,6 @@ export const userEventTable = sqliteTable("user_event", {
 	userId: text("user_id")
 		.notNull()
 		.references(() => userTable.id),
-	userRole: text("user_role").notNull().default("attendee"),
 });
 
 export const sessionTable = sqliteTable("session", {

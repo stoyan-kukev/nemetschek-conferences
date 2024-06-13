@@ -1,16 +1,8 @@
 "use client";
 
 import createEvent, { State } from "@/actions/createEvent";
-import Test from "@/components/Test";
+import Link from "next/link";
 import { useFormState } from "react-dom";
-import UserTable from "./UserTable";
-
-const createEventItems = [
-	{ col: "col-span-4", labelName: "Име на събитието", value: "" },
-	{ col: "col-span-2", labelName: "Град", value: "" },
-	{ col: "col-span-3", labelName: "Дата", value: "" },
-	{ col: "col-span-3", labelName: "Тип", value: "" },
-];
 
 export default function Page({ children }: { children: JSX.Element[] }) {
 	const initialState: State = { message: null, errors: {} };
@@ -127,20 +119,18 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 										id="type"
 										className="w-full rounded-md bg-slate-800 text-white shadow-sm ring-2 ring-inset ring-gray-800/10"
 									>
-										<option value="conference">
+										<option value="конференция">
 											Конференция
 										</option>
-										<option value="workshop">
-											Уъркшоп
-										</option>
-										<option value="training">
+										<option value="уъркшоп">Уъркшоп</option>
+										<option value="обучение">
 											Обучение
 										</option>
-										<option value="hackathon">
-											Хакатон
+										<option value="хакатон">Хакатон</option>
+										<option value="събрание">
+											Събрание
 										</option>
-										<option value="meetup">Събрание</option>
-										<option value="lecture">Семинар</option>
+										<option value="семинар">Семинар</option>
 									</select>
 									{state.errors &&
 										state.errors.type &&
@@ -180,11 +170,11 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 							</div>
 						</div>
 						<div className="mt-8 flex justify-between">
-							<a href="/dashboard/events">
+							<Link href="/dashboard/events">
 								<p className="rounded-md bg-red-500 px-4 py-2">
 									Exit
 								</p>
-							</a>
+							</Link>
 
 							<button
 								type="submit"

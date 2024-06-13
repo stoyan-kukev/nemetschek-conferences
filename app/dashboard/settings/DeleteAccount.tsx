@@ -10,8 +10,8 @@ export default function DeleteFunction() {
 	return (
 		<>
 			<div>
-				<h2 className="leading-7 font-semibold">Delete your account</h2>
-				<p className="leading-6 text-sm mt-1 text-gray-500">
+				<h2 className="font-semibold leading-7">Delete your account</h2>
+				<p className="mt-1 text-sm leading-6 text-gray-500">
 					No longer want to use our service? You can delete your
 					account here. This action is not reversible. All information
 					related to this account will be deleted permanently.
@@ -21,8 +21,8 @@ export default function DeleteFunction() {
 				className="col-span-2 mb-10 md:max-w-[36rem]"
 				action={dispatch}
 			>
-				<div className="flex flex-col mt-8">
-					<button className="bg-red-500 px-4 py-2 rounded-md">
+				<div className="mt-8 flex flex-col">
+					<button className="rounded-md bg-red-500 px-4 py-2">
 						Yes, delete my account
 					</button>
 					{state.message && (

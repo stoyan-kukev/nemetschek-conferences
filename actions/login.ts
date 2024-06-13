@@ -77,5 +77,5 @@ export async function login(
 	const { name, value, attributes } = sessionCookie;
 	cookies().set(name, value, attributes);
 
-	redirect("/dashboard");
+	redirect("/dashboard/events");
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { State, login } from "@/actions/login";
+import Link from "next/link";
 import { useFormState } from "react-dom";
 
 export default function Page() {
@@ -15,6 +16,16 @@ export default function Page() {
 						Sign in to your account
 					</h2>
 				</div>
+
+				<p className="mt-10 text-center text-sm text-gray-500">
+					Don&apos;t have an account?{" "}
+					<Link
+						href="/dashboard/signup"
+						className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+					>
+						Create one
+					</Link>
+				</p>
 
 				<div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
 					<form className="space-y-6" action={dispatch}>
@@ -112,16 +123,6 @@ export default function Page() {
 							</button>
 						</div>
 					</form>
-
-					<p className="mt-10 text-center text-sm text-gray-500">
-						Don&apos;t have an account?{" "}
-						<a
-							href="/signup"
-							className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-						>
-							Create one
-						</a>
-					</p>
 				</div>
 			</div>
 		</>

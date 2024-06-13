@@ -1,13 +1,18 @@
 export default function InputFields({
 	items,
 	state,
+	darkMode,
 }: {
 	items: { col: string; labelName: string; value?: string }[];
 	state: { errors?: any; message?: any };
+	darkMode: boolean;
 }) {
 	return items.map((item) => {
 		const htmlName = item.labelName.toLowerCase().replaceAll(" ", "_");
 		const key = Math.floor(Math.random() * 100);
+		const styles = darkMode
+			? "bg-white/5 text-white"
+			: "bg-white text-black";
 
 		return (
 			<div className={item.col} key={key}>
@@ -23,7 +28,7 @@ export default function InputFields({
 							htmlName.includes("password") ? "password" : "text"
 						}
 						name={htmlName}
-						className="w-full rounded-md bg-white/5 text-white shadow-sm ring-2 ring-inset ring-gray-800/10"
+						className={`w-full rounded-md shadow-sm ring-2 ring-inset ring-gray-800/10 ${styles}`}
 						defaultValue={item.value}
 					/>
 					<div

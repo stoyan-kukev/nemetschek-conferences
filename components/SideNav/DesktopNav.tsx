@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function DesktopNav({
 	items,
 }: {
@@ -18,21 +20,21 @@ export default function DesktopNav({
 								<li key={item.text}>
 									<ul className="-mx-2">
 										<li>
-											<a
+											<Link
 												className="ml-4 flex gap-x-3 p-2 leading-6"
 												href={item.href}
 											>
 												{item.icon}
 												{item.text}
-											</a>
+											</Link>
 										</li>
 									</ul>
 								</li>
 							))}
 
 							<li></li>
-							<a
-								href="/logout"
+							<Link
+								href="/dashboard/logout"
 								className="cursosr mt-auto bg-red-500 text-center text-white"
 							>
 								<li>
@@ -40,7 +42,7 @@ export default function DesktopNav({
 										Sign out
 									</button>
 								</li>
-							</a>
+							</Link>
 						</ul>
 					</nav>
 				</div>

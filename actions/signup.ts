@@ -5,12 +5,21 @@ import { userTable } from "@/lib/db/schema";
 import { hash } from "@node-rs/argon2";
 import { eq } from "drizzle-orm";
 import { generateIdFromEntropySize } from "lucia";
-import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
 const FormSchema = z.object({
+	first_name: z
+		.string({
+			invalid_type_error: "Invalid first name",
+		})
+		.min(2, "First name too short"),
+	last_name: z
+		.string({
+			invalid_type_error: "Invalid last name",
+		})
+		.min(2, "Last name too short"),
 	username: z
 		.string({
 			invalid_type_error: "Invalid username",
@@ -35,6 +44,8 @@ const FormSchema = z.object({
 
 export type State = {
 	errors?: {
+		first_name?: string[];
+		last_name?: string[];
 		username?: string[];
 		password?: string[];
 	};
@@ -48,16 +59,17 @@ export async function signup(
 	const validatedFields = await FormSchema.safeParseAsync({
 		username: formData.get("username"),
 		password: formData.get("password"),
+		first_name: formData.get("first_name"),
+		last_name: formData.get("last_name"),
 	});
 
 	if (!validatedFields.success) {
 		return {
 			errors: validatedFields.error.flatten().fieldErrors,
-			message: "Missing fields. Failed to create an invoice.",
 		};
 	}
 
-	const { password, username } = validatedFields.data;
+	const { password, username, first_name, last_name } = validatedFields.data;
 
 	const passwordHash = await hash(password, {
 		memoryCost: 19456,
@@ -72,6 +84,8 @@ export async function signup(
 		id: userId,
 		password_hash: passwordHash,
 		username,
+		firstName: first_name,
+		lastName: last_name,
 	});
 
 	const session = await lucia.createSession(userId, {});
@@ -79,5 +93,5 @@ export async function signup(
 	const { name, value, attributes } = sessionCookie;
 	cookies().set(name, value, attributes);
 
-	redirect("/dashboard");
+	redirect("/dashboard/events");
 }

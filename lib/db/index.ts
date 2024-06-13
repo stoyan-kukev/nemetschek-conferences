@@ -17,12 +17,11 @@ export const lucia = new Lucia(adapter, {
 			secure: process.env.NODE_ENV === "production",
 		},
 	},
-	getUserAttributes: ({ username, firstName, lastName, email }) => {
+	getUserAttributes: ({ username, firstName, lastName }) => {
 		return {
 			username,
 			firstName,
 			lastName,
-			email,
 		};
 	},
 });
@@ -44,7 +43,7 @@ export const validateRequest = cache(
 		try {
 			if (result.session && result.session.fresh) {
 				const sessionCookie = lucia.createSessionCookie(
-					result.session.id
+					result.session.id,
 				);
 				const { name, value, attributes } = sessionCookie;
 				cookies().set(name, value, attributes);
@@ -58,7 +57,7 @@ export const validateRequest = cache(
 		} catch {}
 
 		return result;
-	}
+	},
 );
 
 declare module "lucia" {
@@ -72,5 +71,4 @@ interface DatabaseUserAttributes {
 	username: string;
 	firstName: string | null;
 	lastName: string | null;
-	email: string | null;
 }

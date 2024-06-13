@@ -31,7 +31,6 @@ function processEvents(
 			username: string;
 			firstName: string | null;
 			lastName: string | null;
-			email: string | null;
 		} | null;
 		event: {
 			id: string;
@@ -92,7 +91,6 @@ export async function fetchEvents() {
 				username: userTable.username,
 				firstName: userTable.firstName,
 				lastName: userTable.lastName,
-				email: userTable.email,
 			},
 			event: {
 				id: eventTable.id,
