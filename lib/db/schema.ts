@@ -15,7 +15,7 @@ export const eventTable = sqliteTable("event", {
 	name: text("name").notNull(),
 	city: text("city").notNull(),
 	startDate: text("start_date").notNull(),
-	type: text("type").default("conference"),
+	type: text("type").notNull(),
 });
 
 export const userEventTable = sqliteTable("user_event", {
