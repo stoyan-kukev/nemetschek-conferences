@@ -108,7 +108,19 @@ export default function Table({ data }: { data: Event[] }) {
 			}
 		});
 
-		setTableData(sortedData);
+		const preference = sortedData.filter((item) =>
+			item.name.toLowerCase().split(" ").join("").includes("devbites"),
+		);
+		const nonPreference = sortedData.filter(
+			(item) =>
+				!item.name
+					.toLowerCase()
+					.split(" ")
+					.join("")
+					.includes("devbites"),
+		);
+
+		setTableData([...preference, ...nonPreference]);
 	};
 
 	const handleSort = (category: string) => {
