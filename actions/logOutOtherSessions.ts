@@ -10,7 +10,7 @@ import { z } from "zod";
 const FormSchema = z.object({
 	current_password: z
 		.string({
-			invalid_type_error: "Invalid current password",
+			invalid_type_error: "Невалидна текуща парола",
 		})
 		.refine(async (password) => {
 			const { user } = await validateRequest();
@@ -32,7 +32,7 @@ const FormSchema = z.object({
 			});
 
 			return isValidPassword;
-		}, "Current password is wrong"),
+		}, "Текущата ви парола е грешна"),
 });
 
 export type State = {
@@ -69,6 +69,6 @@ export async function logOutOtherSessions(
 	cookies().set(name, value, attributes);
 
 	return {
-		message: ["Logged out of other sessions successfully!"],
+		message: ["Успешно излизане от други сесии!"],
 	};
 }

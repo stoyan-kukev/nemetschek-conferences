@@ -48,6 +48,7 @@ export default function Table({ data }: { data: Event[] }) {
 
 	useEffect(() => {
 		filterData();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [dateStart, dateEnd, searchKeyword]);
 
 	const handleDeleteEvent = async (id: string) => {
@@ -126,97 +127,107 @@ export default function Table({ data }: { data: Event[] }) {
 	};
 
 	return (
-		<div className="flex min-h-screen justify-center bg-slate-900 text-white">
-			<div className="mt-10 flex min-h-[75vh] flex-col justify-start sm:my-auto md:min-w-[80%]">
-				<div className="grid grid-rows-2">
-					<div className="flex items-center justify-between">
-						<input
-							type="text"
-							placeholder="Search..."
-							value={searchKeyword}
-							onChange={handleSearch}
-							className="w-3/4 rounded-lg bg-slate-800 text-white sm:p-2"
-						/>
-						<Link href="/dashboard/events/create">
-							<button className="m-3 rounded-lg bg-blue-500 sm:p-3">
-								Add new event
-							</button>
-						</Link>
-					</div>
-					<div className="mt-2 flex items-center justify-evenly">
-						<span>
-							От:{" "}
+		<div className="min-h-screen bg-slate-900 py-10 text-white">
+			<h1 className="py-2 text-center text-xl font-extrabold">Събития</h1>
+			<div className="flex justify-center">
+				<div className="mt-10 flex min-h-[75vh] flex-col justify-start sm:my-auto md:min-w-[80%]">
+					<div className="grid grid-rows-2">
+						<div className="mt-2 flex items-center justify-start">
+							<span className="mr-2">
+								От:{" "}
+								<input
+									className="rounded-lg bg-slate-800 text-white"
+									type="date"
+									onChange={(e) =>
+										setDateStart(e.target.value)
+									}
+								/>
+							</span>
+							<span>
+								До:{" "}
+								<input
+									className="rounded-lg bg-slate-800 text-white"
+									type="date"
+									onChange={(e) => setDateEnd(e.target.value)}
+								/>
+							</span>
+						</div>
+						<div className="flex items-center justify-between">
 							<input
-								className="rounded-lg bg-slate-800 text-white"
-								type="date"
-								onChange={(e) => setDateStart(e.target.value)}
+								type="text"
+								placeholder="Потърси..."
+								value={searchKeyword}
+								onChange={handleSearch}
+								className="w-3/4 rounded-lg bg-slate-800 text-white sm:p-2"
 							/>
-						</span>
-						<span>
-							До:{" "}
-							<input
-								className="rounded-lg bg-slate-800 text-white"
-								type="date"
-								onChange={(e) => setDateEnd(e.target.value)}
-							/>
-						</span>
+							<Link href="/dashboard/events/create">
+								<button className="m-3 rounded-lg bg-blue-500 sm:p-3">
+									Добави ново събитие
+								</button>
+							</Link>
+						</div>
 					</div>
-				</div>
-				<div className="">
-					<table className="min-h-[50%] min-w-full table-fixed border-collapse border-inherit indent-0">
-						<TableHead orders={orders} handleSort={handleSort} />
-						<tbody>
-							{tableData.map(
-								({
-									id,
-									name,
-									city,
-									startDate,
-									type,
-									organisers,
-								}) => (
-									<tr className="border-y" key={id}>
-										<td className="p-3">
-											{name}
-											<span className="block md:hidden">
-												<p className="font-normal text-white/70">
-													{city}
-												</p>
-												<p className="font-normal text-white/60">
-													{startDate}
-												</p>
-												<p className="font-light text-white/50">
-													{type}
-												</p>
-											</span>
-										</td>
-										<td className="hidden p-3 md:table-cell">
-											{city}
-										</td>
-										<td className="hidden p-3 md:table-cell">
-											{startDate}
-										</td>
-										<td className="hidden p-3 md:table-cell">
-											{type}
-										</td>
-										<td>
-											<Dropdown organisers={organisers}>
-												Организатори
-											</Dropdown>
-										</td>
-										<td>
-											<XMarkIcon
-												className="size-6 cursor-pointer rounded-xl bg-red-500"
-												onClick={() =>
-													handleDeleteEvent(id)
-												}
-											/>
-										</td>
-									</tr>
-								),
-							)}
-						</tbody>
-					</table>
+					<div>
+						<table className="min-h-[50%] min-w-full table-fixed border-collapse border-inherit indent-0">
+							<TableHead
+								orders={orders}
+								handleSort={handleSort}
+							/>
+							<tbody>
+								{tableData.map(
+									({
+										id,
+										name,
+										city,
+										startDate,
+										type,
+										organisers,
+									}) => (
+										<tr className="border-y" key={id}>
+											<td className="p-3">
+												{name}
+												<span className="block md:hidden">
+													<p className="font-normal text-white/70">
+														{city}
+													</p>
+													<p className="font-normal text-white/60">
+														{startDate}
+													</p>
+													<p className="font-light text-white/50">
+														{type}
+													</p>
+												</span>
+											</td>
+											<td className="hidden p-3 md:table-cell">
+												{city}
+											</td>
+											<td className="hidden p-3 md:table-cell">
+												{startDate}
+											</td>
+											<td className="hidden p-3 md:table-cell">
+												{type}
+											</td>
+											<td>
+												<Dropdown
+													organisers={organisers}
+												>
+													Организатори
+												</Dropdown>
+											</td>
+											<td>
+												<XMarkIcon
+													className="size-6 cursor-pointer rounded-xl bg-red-500"
+													onClick={() =>
+														handleDeleteEvent(id)
+													}
+												/>
+											</td>
+										</tr>
+									),
+								)}
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

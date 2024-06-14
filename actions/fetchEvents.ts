@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { eventTable, userEventTable, userTable } from "@/lib/db/schema";
-import { eq, like, or } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import { User } from "./fetchUsers";
 
 export type Event = {
@@ -29,8 +29,8 @@ function processEvents(
 		user: {
 			id: string;
 			username: string;
-			firstName: string | null;
-			lastName: string | null;
+			firstName: string;
+			lastName: string;
 		} | null;
 		event: {
 			id: string;

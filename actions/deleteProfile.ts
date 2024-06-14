@@ -18,7 +18,7 @@ export async function deleteProfile(
 	const { user, session } = await validateRequest();
 	if (!user)
 		return {
-			errors: { profile: ["Not authenticated"] },
+			errors: { profile: ["Не сте автентицирани"] },
 		};
 
 	await lucia.invalidateUserSessions(user.id);
@@ -26,6 +26,6 @@ export async function deleteProfile(
 	await db.delete(userTable).where(eq(userTable.id, user.id));
 
 	return {
-		message: ["User deleted successfully"],
+		message: ["Потребителият беше изтрит успешно"],
 	};
 }

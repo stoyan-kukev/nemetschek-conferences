@@ -24,7 +24,7 @@ export default function TableHead({
 					onClick={() => handleSort("name")}
 					className="cursor-pointer select-none p-3 font-semibold leading-6 md:pl-0"
 				>
-					Name
+					Име
 					{orders.name == Order.Default ? (
 						<ChevronUpDownIcon className="inline size-4" />
 					) : orders.name == Order.Descending ? (
@@ -39,7 +39,7 @@ export default function TableHead({
 					onClick={() => handleSort("city")}
 					className="hidden cursor-pointer select-none p-3 font-semibold leading-6 md:table-cell md:pl-0"
 				>
-					City
+					Град
 					{orders.city == Order.Default ? (
 						<ChevronUpDownIcon className="inline size-4" />
 					) : orders.city == Order.Descending ? (
@@ -54,7 +54,7 @@ export default function TableHead({
 					onClick={() => handleSort("startDate")}
 					className="hidden cursor-pointer select-none p-3 font-semibold leading-6 md:table-cell md:pl-0"
 				>
-					Start Date
+					Начална дата
 					{orders.startDate == Order.Default ? (
 						<ChevronUpDownIcon className="inline size-4" />
 					) : orders.startDate == Order.Descending ? (
@@ -69,7 +69,7 @@ export default function TableHead({
 					onClick={() => handleSort("type")}
 					className="hidden cursor-pointer select-none p-3 font-semibold leading-6 md:table-cell md:pl-0"
 				>
-					Type
+					Вид
 					{orders.type == Order.Default ? (
 						<ChevronUpDownIcon className="inline size-4" />
 					) : orders.type == Order.Descending ? (

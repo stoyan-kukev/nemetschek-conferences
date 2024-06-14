@@ -3,7 +3,12 @@ export default function InputFields({
 	state,
 	darkMode,
 }: {
-	items: { col: string; labelName: string; value?: string }[];
+	items: {
+		col: string;
+		labelName: string;
+		displayName?: string;
+		value?: string;
+	}[];
 	state: { errors?: any; message?: any };
 	darkMode: boolean;
 }) {
@@ -20,7 +25,7 @@ export default function InputFields({
 					className="block text-sm font-medium leading-6"
 					htmlFor={htmlName}
 				>
-					{item.labelName}
+					{item.displayName ? item.displayName : item.labelName}
 				</label>
 				<div className="mt-2">
 					<input

@@ -4,8 +4,8 @@ import { userTable } from "@/lib/db/schema";
 export type User = {
 	id: string;
 	username: string;
-	firstName: string | null;
-	lastName: string | null;
+	firstName: string;
+	lastName: string;
 };
 
 export default async function fetchUsers(): Promise<User[]> {

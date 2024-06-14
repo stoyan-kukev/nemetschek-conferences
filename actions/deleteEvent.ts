@@ -13,7 +13,7 @@ export default async function deleteEvent(
 	const id = formData.get("id");
 	if (typeof id !== "string") {
 		return {
-			error: "Something went horribly wrong!",
+			error: "Нещо сероизно се обърка!",
 		};
 	}
 

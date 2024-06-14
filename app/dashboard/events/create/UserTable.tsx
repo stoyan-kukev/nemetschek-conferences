@@ -172,7 +172,7 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 						<div className="mt-8 flex justify-between">
 							<Link href="/dashboard/events">
 								<p className="rounded-md bg-red-500 px-4 py-2">
-									Exit
+									Изход
 								</p>
 							</Link>
 
@@ -180,7 +180,7 @@ export default function Page({ children }: { children: JSX.Element[] }) {
 								type="submit"
 								className="rounded-md bg-blue-500 px-4 py-2"
 							>
-								Save
+								Създай
 							</button>
 						</div>
 					</form>

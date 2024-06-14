@@ -5,9 +5,21 @@ import InputFields from "@/components/InputFields";
 import { useFormState } from "react-dom";
 
 const passwordItems = [
-	{ col: "col-span-full", labelName: "Current password" },
-	{ col: "col-span-full", labelName: "New password" },
-	{ col: "col-span-full", labelName: "Confirm password" },
+	{
+		col: "col-span-full",
+		labelName: "Current password",
+		displayName: "Текуща парола",
+	},
+	{
+		col: "col-span-full",
+		labelName: "New password",
+		displayName: "Нова парола",
+	},
+	{
+		col: "col-span-full",
+		labelName: "Confirm password",
+		displayName: "Потвърдете нова парола",
+	},
 ];
 
 export default function ChangePasswordFields() {
@@ -17,9 +29,9 @@ export default function ChangePasswordFields() {
 	return (
 		<>
 			<div>
-				<h2 className="font-semibold leading-7">Change password</h2>
+				<h2 className="font-semibold leading-7">Промени парола</h2>
 				<p className="mt-1 text-sm leading-6 text-gray-500">
-					Update your password associated with your account
+					Обновете паролата, която се асоциира с вашия акаунт
 				</p>
 			</div>
 			<form
@@ -35,7 +47,7 @@ export default function ChangePasswordFields() {
 				</div>
 				<div className="mt-8 flex flex-col justify-end">
 					<button className="rounded-md bg-blue-500 px-4 py-2">
-						Save
+						Запази
 					</button>
 					{state.message && (
 						<p className="mt-2 text-sm text-green-500">

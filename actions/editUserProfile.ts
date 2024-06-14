@@ -8,19 +8,19 @@ import { z } from "zod";
 const FormSchema = z.object({
 	first_name: z
 		.string({
-			invalid_type_error: "Invalid first name",
+			invalid_type_error: "Невалидно име",
 		})
-		.min(2, "First name too short"),
+		.min(2, "Името ви е твърде кратко"),
 	last_name: z
 		.string({
-			invalid_type_error: "Invalid last name",
+			invalid_type_error: "Невалидна фамилия",
 		})
-		.min(2, "Last name too short"),
+		.min(2, "Фамилията ви е тврде кратка"),
 	username: z
 		.string({
-			invalid_type_error: "Invalid username",
+			invalid_type_error: "Невалидно потребителско име",
 		})
-		.regex(/^[a-z0-9_-]+$/, "Invalid username")
+		.regex(/^[a-z0-9_-]+$/, "Невалидно потребителско име")
 		.refine(async (username) => {
 			const { user } = await validateRequest();
 			if (!user) return;
@@ -32,7 +32,7 @@ const FormSchema = z.object({
 				.get();
 
 			return !foundUser || username == user.username;
-		}, "Username taken"),
+		}, "Потребителското име е вече взето"),
 });
 
 export type State = {
@@ -74,6 +74,6 @@ export async function editUserProfile(
 		.where(eq(userTable.id, user.id));
 
 	return {
-		message: ["Profile edited successfully!"],
+		message: ["Личната ви информация беше сменена успешно!"],
 	};
 }

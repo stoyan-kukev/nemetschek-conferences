@@ -5,9 +5,21 @@ import InputFields from "@/components/InputFields";
 import { useFormState } from "react-dom";
 
 const profileItems = [
-	{ col: "col-span-full", labelName: "Username", value: "" },
-	{ col: "col-span-full md:col-span-3", labelName: "First name", value: "" },
-	{ col: "col-span-full md:col-span-3", labelName: "Last name", value: "" },
+	{
+		col: "col-span-full",
+		labelName: "Username",
+		displayName: "Потребителско име",
+	},
+	{
+		col: "col-span-full md:col-span-3",
+		labelName: "First name",
+		displayName: "Име",
+	},
+	{
+		col: "col-span-full md:col-span-3",
+		labelName: "Last name",
+		displayName: "Фамилия",
+	},
 ];
 
 export default function UserProfileFields() {
@@ -17,11 +29,9 @@ export default function UserProfileFields() {
 	return (
 		<>
 			<div>
-				<h2 className="font-semibold leading-7">
-					Personal Information
-				</h2>
+				<h2 className="font-semibold leading-7">Лична информация</h2>
 				<p className="mt-1 text-sm leading-6 text-gray-500">
-					Change your personal information
+					Променете вашата лична информация
 				</p>
 			</div>
 			<form
@@ -40,7 +50,7 @@ export default function UserProfileFields() {
 						type="submit"
 						className="rounded-md bg-blue-500 px-4 py-2"
 					>
-						Save
+						Запази
 					</button>
 					{state.message && (
 						<p className="mt-2 text-sm text-green-500">

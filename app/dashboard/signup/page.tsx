@@ -6,10 +6,30 @@ import Link from "next/link";
 import { useFormState } from "react-dom";
 
 const profileItems = [
-	{ col: "col-span-full", labelName: "Username", value: "" },
-	{ col: "col-span-full", labelName: "First name", value: "" },
-	{ col: "col-span-full", labelName: "Last name", value: "" },
-	{ col: "col-span-full", labelName: "Password", value: "" },
+	{
+		col: "col-span-full",
+		labelName: "Username",
+		displayName: "Потребителско име",
+		value: "",
+	},
+	{
+		col: "col-span-full",
+		labelName: "First name",
+		displayName: "Име",
+		value: "",
+	},
+	{
+		col: "col-span-full",
+		labelName: "Last name",
+		displayName: "Фамилия",
+		value: "",
+	},
+	{
+		col: "col-span-full",
+		labelName: "Password",
+		displayName: "Парола",
+		value: "",
+	},
 ];
 
 export default function Page() {
@@ -21,17 +41,17 @@ export default function Page() {
 			<div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
 				<div className="sm:mx-auto sm:w-full sm:max-w-sm">
 					<h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-						Create a new account
+						Създайте нов профил
 					</h2>
 				</div>
 
 				<p className="mt-5 text-center text-sm text-gray-500">
-					Already have an account?{" "}
+					Вече имате регистриран профил?{" "}
 					<Link
 						href="/dashboard/login"
 						className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
 					>
-						Log in
+						Влез
 					</Link>
 				</p>
 
@@ -52,7 +72,7 @@ export default function Page() {
 								type="submit"
 								className="rounded-md bg-indigo-600 px-4 py-2 font-semibold text-white"
 							>
-								Save
+								Регистрирай
 							</button>
 							{state.message && (
 								<p className="mt-2 text-sm text-green-500">

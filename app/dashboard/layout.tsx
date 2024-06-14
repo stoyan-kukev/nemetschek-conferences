@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { Carrois_Gothic, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "@/styles/globals.css";
-import Footer from "@/components/Footer";
 import SideNav from "@/components/SideNav";
 import { validateRequest } from "@/lib/db";
-import { redirect } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -12,21 +12,21 @@ import { z } from "zod";
 const FormSchema = z.object({
 	first_name: z
 		.string({
-			invalid_type_error: "Invalid first name",
+			invalid_type_error: "Невалидно име",
 		})
-		.min(2, "First name too short"),
+		.min(2, "Името ви е твърде кратко"),
 	last_name: z
 		.string({
-			invalid_type_error: "Invalid last name",
+			invalid_type_error: "Невалидна фамилия",
 		})
-		.min(2, "Last name too short"),
+		.min(2, "Фамилията ви е твърде кратка"),
 	username: z
 		.string({
-			invalid_type_error: "Invalid username",
+			invalid_type_error: "Невалидно потребителско име",
 		})
-		.min(3, "Username too short")
-		.max(31, "Username too long")
-		.regex(/^[a-z0-9_-]+$/, "Invalid username")
+		.min(3, "Потребителското име е твърде кра")
+		.max(31, "Потребителското име е твърде дълго")
+		.regex(/^[a-z0-9_-]+$/, "Невалидно потребителско име")
 		.refine(
 			(username) =>
 				!db
@@ -34,12 +34,12 @@ const FormSchema = z.object({
 					.from(userTable)
 					.where(eq(userTable.username, username))
 					.get(),
-			"Username taken",
+			"Потребителското име е вече взето",
 		),
 	password: z
-		.string({ invalid_type_error: "Invalid password" })
-		.min(6, "Password too short")
-		.max(255, "Password too long"),
+		.string({ invalid_type_error: "Невалидна парола" })
+		.min(6, "Паролата е твърде кратка")
+		.max(255, "Паролата е твърде дълга"),
 });
 
 export type State = {

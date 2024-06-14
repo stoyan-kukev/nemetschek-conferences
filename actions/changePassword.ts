@@ -11,7 +11,7 @@ const FormSchema = z
 	.object({
 		current_password: z
 			.string({
-				invalid_type_error: "Invalid current password",
+				invalid_type_error: "Невалидна текуща парола",
 			})
 			.refine(async (password) => {
 				const { user } = await validateRequest();
@@ -37,23 +37,22 @@ const FormSchema = z
 				);
 
 				return isValidPassword;
-			}, "Current password is wrong"),
+			}, "Текущата ви парола е грешна"),
 		new_password: z
 			.string({
-				invalid_type_error: "Invalid new password",
+				invalid_type_error: "Невалидна нова парола",
 			})
-			.min(6, "New password is too short")
-			.max(255, "New password is too long"),
+			.min(6, "Новата ви парола е твърде къса")
+			.max(255, "Новата ви парола е твърде дълга"),
 		confirm_password: z.string({
-			invalid_type_error: "Invalid current password",
+			invalid_type_error: "Невалидна текуща парола",
 		}),
 	})
 	.refine(
 		({ current_password, new_password }) =>
 			current_password != new_password,
 		{
-			message:
-				"New password should be different from the current password",
+			message: "Новата ви парола трябва да е различна от текущата ви",
 			path: ["new_password"],
 		},
 	)
@@ -61,7 +60,7 @@ const FormSchema = z
 		({ new_password, confirm_password }) =>
 			new_password == confirm_password,
 		{
-			message: "Passwords don't match",
+			message: "Паролите не съвпадат",
 			path: ["confirm_password"],
 		},
 	);
@@ -120,6 +119,6 @@ export async function changePassword(
 	cookies().set(name, value, attributes);
 
 	return {
-		message: ["Password changed successfully!"],
+		message: ["Паролата ви беше променена успешно!"],
 	};
 }

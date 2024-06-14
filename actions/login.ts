@@ -12,10 +12,10 @@ const FormSchema = z
 	.object({
 		username: z
 			.string({
-				invalid_type_error: "Invalid username",
+				invalid_type_error: "Невалидно потребителско име",
 			})
-			.regex(/^[a-z0-9_-]+$/, "Invalid username"),
-		password: z.string({ invalid_type_error: "Invalid password" }),
+			.regex(/^[a-z0-9_-]+$/, "Невалидно потребителско име"),
+		password: z.string({ invalid_type_error: "Невалидна парола" }),
 	})
 	.refine(async ({ username, password }) => {
 		const userExists = db
@@ -38,7 +38,7 @@ const FormSchema = z
 		);
 
 		return isValidPassword;
-	}, "Incorrect username or password");
+	}, "Неправилно потребителско име или парола");
 
 export type State = {
 	errors?: {

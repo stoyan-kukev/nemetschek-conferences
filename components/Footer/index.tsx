@@ -14,7 +14,7 @@ export default function Footer() {
 							Nemetschek IT Conference™
 						</Link>
 						<br />
-						All Rights Reserved.
+						Всички права запазени.
 					</span>
 				</div>
 			</footer>

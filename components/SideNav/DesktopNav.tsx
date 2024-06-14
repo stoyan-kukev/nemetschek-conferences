@@ -38,9 +38,7 @@ export default function DesktopNav({
 								className="cursosr mt-auto bg-red-500 text-center text-white"
 							>
 								<li>
-									<button className="mx-6 py-3">
-										Sign out
-									</button>
+									<button className="mx-6 py-3">Излез</button>
 								</li>
 							</Link>
 						</ul>

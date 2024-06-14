@@ -9,7 +9,7 @@ export async function logout(): Promise<ActionResult> {
 
 	if (!session) {
 		return {
-			error: "Unauthorized",
+			error: "Не сте автентициран",
 		};
 	}
 

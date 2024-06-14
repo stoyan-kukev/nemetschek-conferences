@@ -10,11 +10,13 @@ export default function DeleteFunction() {
 	return (
 		<>
 			<div>
-				<h2 className="font-semibold leading-7">Delete your account</h2>
+				<h2 className="font-semibold leading-7">
+					Изтрийте вашият профил
+				</h2>
 				<p className="mt-1 text-sm leading-6 text-gray-500">
-					No longer want to use our service? You can delete your
-					account here. This action is not reversible. All information
-					related to this account will be deleted permanently.
+					Тук можете да изтриете акаунта си. Това действие не е
+					обратимо. Цялата информация, свързана с този акаунт, ще бъде
+					изтрита за постоянно.
 				</p>
 			</div>
 			<form
@@ -23,7 +25,7 @@ export default function DeleteFunction() {
 			>
 				<div className="mt-8 flex flex-col">
 					<button className="rounded-md bg-red-500 px-4 py-2">
-						Yes, delete my account
+						Да, изтрийте акаунта ми
 					</button>
 					{state.message && (
 						<p className="mt-2 text-sm text-green-500">

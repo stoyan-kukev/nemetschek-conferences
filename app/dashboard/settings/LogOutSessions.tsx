@@ -5,7 +5,11 @@ import InputFields from "@/components/InputFields";
 import { useFormState } from "react-dom";
 
 const logOutSessionsItems = [
-	{ col: "col-span-full", labelName: "Current password" },
+	{
+		col: "col-span-full",
+		labelName: "Current password",
+		displayName: "Текуща парола",
+	},
 ];
 
 export default function LogOutSessions() {
@@ -16,11 +20,11 @@ export default function LogOutSessions() {
 		<>
 			<div>
 				<h2 className="font-semibold leading-7">
-					Log out of other sessions
+					Излизане от други сесии
 				</h2>
 				<p className="mt-1 text-sm leading-6 text-gray-500">
-					Please enter your password to confirm you would like to log
-					out of your other sessions across all of your devices.
+					Моля, въведете паролата си, за да потвърдите, че искате да
+					излезете от другите си сесии на всичките си устройства.
 				</p>
 			</div>
 			<form
@@ -36,7 +40,7 @@ export default function LogOutSessions() {
 				</div>
 				<div className="mt-8 flex flex-col justify-end">
 					<button className="rounded-md bg-purple-500 px-4 py-2">
-						Log out other sessions
+						Излез от други сесии
 					</button>
 					{state.message && (
 						<p className="mt-2 text-sm text-green-500">
